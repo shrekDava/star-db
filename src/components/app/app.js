@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ItemList from '../item-list';
-import ItemDetails from '../item-details';
+import ItemDetails, {Record} from '../item-details/item-details';
 import PeoplePage from '../people-page';
 import ErrorButton from '../error-button';
 import './app.css';
@@ -13,9 +13,21 @@ import Row from '../row';
 
 import ErrorIndicator from '../error-indicator';
 import SwapiService from '../../services/swapi-service';
+import DummySwapiService from '../../services/dummy-swapi-service';
+
+import{
+  PersonDetails,
+  PlanetDetails,
+  StarshipDetails,
+  PersonList,
+  PlanetList,
+  StarshipList
+} from '../sw-components'
+
 
 export default class App extends Component {
   swapiService = new SwapiService()
+  dummySwapiService = new DummySwapiService()
   state = {
     showRandomPlanet: true,
     hasError: false
@@ -40,25 +52,42 @@ export default class App extends Component {
     const planet = this.state.showRandomPlanet ?
       <RandomPlanet/> :
       null;
-      const {
+     /* const {
         getPerson, 
         getStarship,
         getPersonImage,
         getStarshipImage  
-      } = this.swapiService
+      } = this.swapiService*/
+
+      const {
+        getPerson, 
+        getStarship,
+        getPersonImage,
+        getStarshipImage,
+        getAllStarships,
+        getAllPeople
+      } = this.dummySwapiService
 
       const personDetails = (
         <ItemDetails itemId ={11}
         getData ={getPerson}
         getImageUrl={getPersonImage}
 
-        />
+        >
+          <Record field="gender" label ="Gender" />
+            <Record field="eyeColor" label ="Eye Color" />
+        </ItemDetails>
       )
       const starshipDetails = (
-        <ItemDetails itemId ={5}
+        <ItemDetails 
+        itemId ={5}
         getData ={getStarship}
-        getImageUrl={getStarshipImage}
-        />
+        getImageUrl={getStarshipImage}>
+            <Record field="model" label ="Model" />
+            <Record field="length" label ="Length" />
+            <Record field="costInCredits" label ="Cost" />
+
+        </ItemDetails>
       )
       return (
         <ErrorBoundry>
@@ -69,6 +98,16 @@ export default class App extends Component {
             right={starshipDetails}
             />
           </div>
+          <PersonDetails itemId = {11}></PersonDetails>
+          <PlanetDetails itemId = {3}></PlanetDetails>
+          <StarshipDetails itemId = {8}></StarshipDetails>
+
+          <PersonList/>
+          
+          <StarshipList/>
+          
+          <PlanetList/>
+          
         </ErrorBoundry>
       )
     /*return (

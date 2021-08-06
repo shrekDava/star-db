@@ -6,7 +6,17 @@ import ErrorIndicator from '../error-indicator';
 import SwapiService from '../../services/swapi-service';
 import ErrorButton from "../error-button/error-button";
 
-
+const Record = ({item , field, label}) =>{
+  return (
+            <li className="list-group-item">
+              <span className="term"> {label}</span>
+              <span> {item[field]}</span>
+          </li>
+          )
+}
+export {
+  Record
+}
 
 export default class ItemDetails extends Component {
   
@@ -46,28 +56,40 @@ export default class ItemDetails extends Component {
       this.updateitem()
     }
 }*/
-  render() {
-    const { item, loading,image } = this.state
+render() {
 
-   /* if(!item){
-      return <span> Select a item from a list </span>
-    }*/
-
-    //const { id, name, gender, birthYear, eyeColor   } = this.state
-    //const {loading} = this.state.loading
-    
-    const  spinner = loading ? <Spinner /> : null
-    const content = !loading ? <ItemView item = {item} image ={image}/> : null
-    return (
-      <div className="person-details card">
-       {spinner}
-       {content}
-      </div>
-    )
+  const { item, image } = this.state;
+  if (!item) {
+    return <span>Select a item from a list</span>;
   }
+
+  const { id, name, gender,
+            birthYear, eyeColor } = item;
+
+  return (
+    <div className="item-details card">
+      <img className="item-image"
+        src={image}
+        alt="item"/>
+
+      <div className="card-body">
+        <h4>{name}</h4>
+        <ul className="list-group list-group-flush">
+          {
+            React.Children.map(this.props.children, (child) => {
+                  return React.cloneElement(child,{ item })
+
+            })
+            }
+        </ul>
+        <ErrorButton />
+      </div>
+    </div>
+  );
+}
 }
 
-const ItemView = ({item, image}) => {
+/*const ItemView = ({item, image}) => {
   const {id,name,gender, birthYear, eyeColor} = item
   //const {image} = image
   return (
@@ -79,7 +101,17 @@ const ItemView = ({item, image}) => {
         <div className="card-body">
           <h4>{name}</h4>
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">
+
+            {this.props.children}
+
+          </ul>
+          <ErrorButton />
+        </div>
+   </React.Fragment>
+   )
+}*/
+
+/*<li className="list-group-item">
               <span className="term">Gender</span>
               <span>{gender}</span>
             </li>
@@ -90,10 +122,4 @@ const ItemView = ({item, image}) => {
             <li className="list-group-item">
               <span className="term">Eye Color</span>
               <span>{eyeColor}</span>
-            </li>
-          </ul>
-          <ErrorButton />
-        </div>
-   </React.Fragment>
-   )
-}
+            </li>*/
