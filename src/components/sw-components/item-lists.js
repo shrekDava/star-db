@@ -27,7 +27,13 @@ const withChildFunction = (Wrapped, fn) => {
     )
   };
 };
+/*
+const ListWithCildren = withChildFunction(
+  ItemList,
+  ({ name }) => <span>{name}</span>
+)
 
+}*/
 const renderName = ({ name }) => <span>{name}</span>;
 const renderModelAndName = ({ model, name}) => <span>{name} ({model})</span>;
 

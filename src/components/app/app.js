@@ -9,7 +9,10 @@ import ErrorButton from '../error-button';
 import './app.css';
 import ErrorBoundry from '../error-boundry';
 import Row from '../row';
-
+import {
+  SwapiServiceProvider,
+  SwapiServiceConsumer
+} from '../swapi-service-context'
 
 import ErrorIndicator from '../error-indicator';
 import SwapiService from '../../services/swapi-service';
@@ -91,6 +94,7 @@ export default class App extends Component {
       )
       return (
         <ErrorBoundry>
+          <SwapiServiceProvider value = {this.dummySwapiService}>
           <div className="stardb-app">
             <Header/>
             <Row
@@ -107,7 +111,7 @@ export default class App extends Component {
           <StarshipList/>
           
           <PlanetList/>
-          
+          </SwapiServiceProvider>
         </ErrorBoundry>
       )
     /*return (
